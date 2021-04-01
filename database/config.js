@@ -12,11 +12,8 @@ const dbConnection = async() => {
       useUnifiedTopology: true,
       useCreateIndex: true
     });
-
-    console.log("DB ONLINE")
     
   } catch (error) {
-    console.log(error)
     throw new Error('Error a la hora de inicializar la base de datos')
   }
 

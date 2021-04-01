@@ -24,7 +24,6 @@ const obtenerUsuarios = async(req, res = response ) => {
 
 
     } catch (error) {
-        console.log(error);
         res.status(500).json({
             ok: false,
             msg: 'Por favor hable con el administrador'
@@ -67,7 +66,6 @@ const crearUsuario = async(req, res = response ) => {
         })
         
     } catch (error) {
-        console.log(error)
         res.status(500).json({
             ok: false,
             msg: 'Por favor hable con el administrador'
@@ -113,7 +111,6 @@ const loginUsuario = async(req, res = response ) => {
 
 
     } catch (error) {
-        console.log(error);
         res.status(500).json({
             ok: false,
             msg: 'Por favor hable con el administrador'
@@ -169,7 +166,6 @@ const editarUsuario = async(req, res = response ) => {
         })
         
     } catch (error) {
-        console.log(error)
         res.status(500).json({
             ok: false,
             msg: 'Por favor hable con el administrador'
@@ -198,7 +194,6 @@ const eliminarUsuario = async(req, res = response ) => {
         })
         
     } catch (error) {
-        console.log(error)
         res.status(500).json({
             ok: false,
             msg: 'Por favor hable con el administrador'

@@ -9,12 +9,11 @@ const validarJWT = ( req, res = response, next ) => {
     if ( !token ) {
         return res.status(401).json({
             ok: false,
-            msg: 'No hay token en la petición'
+            msg: 'No existe token en la petición'
         });
     }
 
-    try {
-        
+    try {    
         const { uid, name } = jwt.verify(
             token,
             process.env.SECRET_JWT_SEED
@@ -23,14 +22,12 @@ const validarJWT = ( req, res = response, next ) => {
         req.uid = uid;
         req.name = name;
 
-
     } catch (error) {
         return res.status(401).json({
             ok: false,
             msg: 'Token no válido'
         });
     }
-
 
 
     next();

@@ -1,7 +1,6 @@
 /*
-    Rutas de Usuarios / Auth
-    host + /api/auth
-*/
+    basic path url: /api/auth/
+ */
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
@@ -11,12 +10,9 @@ const { validarJWT } = require('../middlewares/validar-JWT');
 
 const router = Router();
 
+router.get( '/users', obtenerUsuarios);
 
-router.get(
-    '/users',
-    obtenerUsuarios
-);
-
+// Registrar usuario
 router.post(
     '/new', 
     [ // middlewares
@@ -28,6 +24,7 @@ router.post(
     crearUsuario 
 );
 
+// Iniciar sesión
 router.post(
     '/login',
     [
@@ -38,6 +35,7 @@ router.post(
     loginUsuario 
 );
 
+// Actualizar datos del usuario
 router.post(
     '/update',
     [
@@ -50,6 +48,7 @@ router.post(
     editarUsuario
 );
 
+// Eliminar Usuario
 router.delete(
     '/delete',
     [
@@ -59,9 +58,8 @@ router.delete(
     eliminarUsuario
 );
 
-
+// Renovar Token
 router.get('/renew', validarJWT ,revalidarToken );
-
 
 
 
