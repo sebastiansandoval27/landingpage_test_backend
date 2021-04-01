@@ -3,6 +3,36 @@ const bcrypt = require('bcryptjs');
 const Usuario = require('../models/Usuario');
 const { generarJWT } = require('../helpers/jwt');
  
+
+const obtenerUsuarios = async(req, res = response ) => {
+
+    try {
+        
+        let usuarios = await Usuario.find();
+
+        if ( !usuarios ) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'No existen usuarios'
+            });
+        }
+
+        res.json({
+            ok: true,
+            users: usuarios,
+        })
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+
+}
+
 const crearUsuario = async(req, res = response ) => {
 
     const { email, password } = req.body;
@@ -108,11 +138,81 @@ const revalidarToken = async (req, res = response ) => {
     })
 }
 
+const editarUsuario = async(req, res = response ) => {
+
+    const { uid } = req.body;
+
+    let { name,email,password } = req.body;
+
+    // Encriptar contraseña
+    const salt = bcrypt.genSaltSync();
+    password = bcrypt.hashSync( password, salt );
+
+    let body = {
+        name,email,password
+    }
+
+
+    try {
+        let response = await Usuario.findOneAndUpdate(uid, body,{ useFindAndModify: false });
+
+        if ( !response ) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'El usuario no existe'
+            });
+        }
+    
+        res.status(201).json({
+            ok: true,
+            msg:"Updated"
+        })
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+}
+
+const eliminarUsuario = async(req, res = response ) => {
+
+    const { uid } = req.body;
+
+
+    try {
+        let response = await Usuario.findOneAndRemove(uid,{ useFindAndModify: false });
+
+        if ( !response ) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'El usuario no existe'
+            });
+        }
+    
+        res.status(201).json({
+            ok: true,
+            msg:"Eliminado"
+        })
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'Por favor hable con el administrador'
+        });
+    }
+}
 
 
 
 module.exports = {
     crearUsuario,
     loginUsuario,
-    revalidarToken
+    revalidarToken,
+    editarUsuario,
+    eliminarUsuario,
+    obtenerUsuarios
 }
