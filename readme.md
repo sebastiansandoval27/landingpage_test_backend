@@ -1,4 +1,4 @@
-# Título del Proyecto
+# Landing page test backend
 
 Proyecto para prueba técnica Desarrollador Full Stack.
 
@@ -7,6 +7,7 @@ Proyecto para prueba técnica Desarrollador Full Stack.
 Proyecto backend para el repositorio: https://github.com/sebastiansandoval27/landingpage_test
 
 Realizado con:
+
 - Node js ^14.8
 - bcryptjs: ^2.4.3
 - cors: ^2.8.5
@@ -27,7 +28,9 @@ Realizado con:
 ## Autores ✒️
 
 Desarrollado por:
-* *Sebastián Sandoval* - [sebastiansandoval27](https://github.com/sebastiansandoval27)
+
+- _Sebastián Sandoval_ - [sebastiansandoval27](https://github.com/sebastiansandoval27)
 
 ---
+
 ⌨️ con ❤️ por [sebastiansandoval27](https://github.com/sebastiansandoval27) 😊
