@@ -22,8 +22,7 @@ Realizado con:
 1. Clonar o descargar el proyecto.
 2. Ingresar a la carpeta del proyecto.
 3. Ejecutar npm install para instalar todas las dependencias.
-4. - Ejecutar con "NODEMON" : npm run dev
-   - Ejecutar sin "NODEMON" : npm run start
+4. - Ejecutar : npm run start
 
 ## Autores ✒️
 
