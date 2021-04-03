@@ -11,6 +11,7 @@ const {
   editUser,
   deleteUser,
   getUsers,
+  getUser,
 } = require("../controllers/auth");
 const { validJWT } = require("../middlewares/valid-JWT");
 
@@ -49,17 +50,13 @@ router.post(
 
 // Actualizar datos del usuario
 router.post(
-  "/update",
+  "/update/:uid",
   [
-    check("uid", "El id es obligatorio").not().isEmpty(),
     check("name", "El nombre es obligatorio").not().isEmpty(),
     check("name", "El nombre debe ser mayor a 3 carácteres").isLength({
       min: 3,
     }),
     check("email", "El email es obligatorio").isEmail(),
-    check("password", "El password debe de ser de 6 caracteres").isLength({
-      min: 6,
-    }),
     validFields,
   ],
   editUser
@@ -74,5 +71,6 @@ router.delete(
 
 // Renovar Token
 router.get("/renew", validJWT, revalidateToken);
+router.post("/user", getUser);
 
 module.exports = router;

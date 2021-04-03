@@ -8,7 +8,7 @@ const getUsers = async (req, res = response) => {
     let users = await User.find();
 
     if (!users) {
-      return res.status(400).json({
+      return res.json({
         ok: false,
         msg: "No existen Usuarios",
       });
@@ -48,7 +48,7 @@ const newUser = async (req, res = response) => {
     await user.save();
 
     // Generar JWT
-    const token = await newJWT(user.id, user.name);
+    const token = await newJWT(user.id, user.name, user.email);
 
     res.status(201).json({
       ok: true,
@@ -86,15 +86,39 @@ const loginUser = async (req, res = response) => {
         msg: "Credenciales incorrectas",
       });
     }
-
     // Generar JWT
-    const token = await newJWT(user.id, user.name);
+    const token = await newJWT(user.id, user.name, user.email);
 
     res.json({
       ok: true,
       uid: user.id,
       name: user.name,
+      email,
       token,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      msg: error.message,
+    });
+  }
+};
+const getUser = async (req, res = response) => {
+  const { uid } = req.body;
+
+  try {
+    const user = await User.findOne({ _id: uid });
+
+    if (!user) {
+      return res.json({
+        ok: false,
+        msg: "El usuario no existe con ese id",
+      });
+    }
+
+    res.json({
+      ok: true,
+      user,
     });
   } catch (error) {
     res.status(500).json({
@@ -105,32 +129,30 @@ const loginUser = async (req, res = response) => {
 };
 
 const revalidateToken = async (req, res = response) => {
-  const { uid, name } = req;
+  const { uid, name, email } = req;
 
   // Generar JWT
-  const token = await newJWT(uid, name);
+  const token = await newJWT(uid, name, email);
+
+  const user = await User.findOne({ _id: uid });
 
   res.json({
     ok: true,
     token,
     uid,
     name,
+    email: user.email,
   });
 };
 
 const editUser = async (req, res = response) => {
-  const { uid } = req.body;
-
-  let { name, email, password } = req.body;
-
-  // Encriptar contraseña
-  const salt = bcrypt.genSaltSync();
-  password = bcrypt.hashSync(password, salt);
+  let { name, email } = req.body;
+  let uid = req.params.uid;
 
   let body = {
+    uid,
     name,
     email,
-    password,
   };
 
   try {
@@ -139,7 +161,7 @@ const editUser = async (req, res = response) => {
     });
 
     if (!response) {
-      return res.status(400).json({
+      return res.json({
         ok: false,
         msg: "El usuario no existe",
       });
@@ -152,7 +174,7 @@ const editUser = async (req, res = response) => {
   } catch (error) {
     res.status(500).json({
       ok: false,
-      msg: "Por favor hable con el administrador",
+      msg: error.message,
     });
   }
 };
@@ -166,7 +188,7 @@ const deleteUser = async (req, res = response) => {
     });
 
     if (!response) {
-      return res.status(400).json({
+      return res.json({
         ok: false,
         msg: "El usuario no existe",
       });
@@ -191,4 +213,5 @@ module.exports = {
   editUser,
   deleteUser,
   getUsers,
+  getUser,
 };
