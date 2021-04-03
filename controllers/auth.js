@@ -54,6 +54,7 @@ const newUser = async (req, res = response) => {
       ok: true,
       uid: user.id,
       name: user.name,
+      email: user.email,
       token,
     });
   } catch (error) {
@@ -115,7 +116,7 @@ const getUser = async (req, res = response) => {
         msg: "El usuario no existe con ese id",
       });
     }
-
+    user.password = undefined;
     res.json({
       ok: true,
       user,

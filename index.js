@@ -19,6 +19,6 @@ app.use(express.json());
 app.use("/api/auth", require("./routes/auth"));
 
 // Listen server
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 4000, () => {
   console.log(`Servidor corriendo en puerto ${process.env.PORT}`);
 });
